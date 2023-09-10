@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata:Metadata={
   title:'Threads',
   description:'my Next js app meta threads Apllication',
-  
+
 }
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <Topbar/>
 
-          <main>
+          <main className='flex flex-row'>
             <LeftSidebar/>
 
             <section className='main-container'>

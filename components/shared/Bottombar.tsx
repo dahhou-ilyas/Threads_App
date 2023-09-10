@@ -15,9 +15,9 @@ export default function Bottombar() {
           return (
             <Link href={lin.route}
              key={lin.label}
-             className={`leftsidebar_link ${isActive? 'bg-primary-500' : ''}`}>
+             className={`bottombar_link ${isActive? 'bg-primary-500' : ''}`}>
               <Image src={lin.imgURL} alt={lin.label} width={24} height={24}/>
-              <p className="text-light-1 max-lg:hidden">{lin.label}</p>
+              <p className="text-subtle-medium text-light-1 max-sm:hidden">{lin.label.split(' ')[0]}</p>
              </Link>
           )
         })}
