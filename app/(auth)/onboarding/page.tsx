@@ -5,14 +5,14 @@ async function Page() {
     const user=await currentUser()
 
     const userInfo={}
-
+    
     const userData={
        id: user?.id,
        objectId:userInfo?._id,
        username: user?.username||userInfo?.username,
        name: user?.firstName||userInfo?.name ,
        bio:userInfo?.bio || "",
-       image:user?.imageUrl||userInfo?.image
+       image: user?.imageUrl||userInfo?.image
     }
 
     return(
