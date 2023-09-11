@@ -9,10 +9,10 @@ async function Page() {
     const userData={
        id: user?.id,
        objectId:userInfo?._id,
-       username:userInfo?.username || user?.username,
-       name:userInfo?.name || user?.firstName || "",
+       username: user?.username||userInfo?.username,
+       name: user?.firstName||userInfo?.name ,
        bio:userInfo?.bio || "",
-       image:userInfo?.image || user?.imageUrl
+       image:user?.imageUrl||userInfo?.image
     }
 
     return(

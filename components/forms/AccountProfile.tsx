@@ -20,12 +20,12 @@ import { Textarea } from '../ui/textarea'
 
 type Props={
     user:{
-        id:string,
-        objectId:string,
-        username:string,
-        name:string,
-        bio:string,
-        image:string
+        id:string | undefined,
+        objectId:string | undefined,
+        username:string | undefined,
+        name:string | undefined,
+        bio:string | undefined,
+        image:string| undefined
     },
     btnTitle:string
 
@@ -35,10 +35,10 @@ export default function AccountProfile({user,btnTitle}:Props) {
     const form=useForm({
         resolver:zodResolver(UserValidation),
         defaultValues:{
-          profile_photo:'',
-          name:'',
-          username:'',
-          bio:''
+          profile_photo:user?.image || "",
+          name:user?.name || "",
+          username:user?.username || "",
+          bio:user?.bio || ""
         }
     })
 
