@@ -16,6 +16,7 @@ import { UserValidation } from '@/lib/validation/user'
 import * as z from "zod"
 import Image from 'next/image'
 import { ChangeEvent } from 'react'
+import { Textarea } from '../ui/textarea'
 
 type Props={
     user:{
@@ -84,14 +85,58 @@ export default function AccountProfile({user,btnTitle}:Props) {
                 className='account-form_image-input'
                 onChange={(e)=>handleImage(e,field.onChange)} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className='flex flex-col gap-3 w-full'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Name
+              </FormLabel>
+              <FormControl>
+                <Input type='text'
+                className='account-form_input no-focus'
+                onChange={(e)=>handleImage(e,field.onChange)} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className='flex flex-col gap-3 w-full'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Username
+              </FormLabel>
+              <FormControl>
+                <Input type='text'
+                className='account-form_input no-focus'
+                onChange={(e)=>handleImage(e,field.onChange)} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem className='flex flex-col gap-3 w-full'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Bio
+              </FormLabel>
+              <FormControl>
+                <Textarea rows={3}
+                className='account-form_input no-focus'
+                onChange={(e)=>handleImage(e,field.onChange)} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button type="submit" >Submit</Button>
       </form>
     </Form>
         
