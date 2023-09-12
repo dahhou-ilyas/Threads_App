@@ -53,6 +53,8 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     },
   });
 
+
+
   function handleImage(e:ChangeEvent<HTMLInputElement>,fieldChange:(value:string)=>void){
     e.preventDefault()
 
@@ -62,29 +64,31 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     if(e.target.files && e.target.files.length>0){
       const file=e.target.files[0]
       
-      setFiles(Array.from(e.target.files))
-
+      setFiles(Array.from(e.target.files))//stocker l'image
+      
       if(!file.type.includes('image')) return;
 
       fileReader.onload=async (event)=>{
-        console.log(2);
         const imageDataUrl=event.target?.result?.toString() || '';
-        fieldChange(imageDataUrl);
+        fieldChange(imageDataUrl);//cette fonction paermet de changer image
       }
-      console.log(1);
-      fileReader.readAsDataURL(file)
+      
+      fileReader.readAsDataURL(file) //lorsque cette fonctionne est execute il déclanche fileReader.onload
     }
   }
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     const blob=values.profile_photo;
-    const hasImageChnaged=isBase64Image(blob);
+    const hasImageChnaged=isBase64Image(blob); // cela permet de tester si image est changer car l'image par défuat n'est pas en base64
     if(hasImageChnaged){
-      const imgRes=await startUpload(files)
+      const imgRes=await startUpload(files) // transferer l'image vers le serveur
+      console.log(imgRes);
 
       if(imgRes && imgRes[0].fileUrl){
         values.profile_photo=imgRes[0].fileUrl
       }
     }
+    //les ligne précedent permet de changer la valeur de values.profile_photo si image est changer
+    
   };
 
   return (
