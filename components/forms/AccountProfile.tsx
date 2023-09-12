@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {useUploadThing} from '@/lib/uploadthing'
 
 import {
   Form,
@@ -19,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { UserValidation } from "@/lib/validation/user";
+import { isBase64Image } from "@/lib/utils";
 
 
 interface Props {
@@ -36,6 +38,7 @@ interface Props {
 const AccountProfile = ({ user, btnTitle }: Props) => {
 
   const [files,setFiles]=useState<File[]>([])
+  const {startUpload}=useUploadThing('media');
 
   const router = useRouter();
   const pathname = usePathname();
@@ -49,10 +52,6 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       bio: user?.bio ? user.bio : "",
     },
   });
-
-  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    
-  };
 
   function handleImage(e:ChangeEvent<HTMLInputElement>,fieldChange:(value:string)=>void){
     e.preventDefault()
@@ -76,6 +75,17 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       fileReader.readAsDataURL(file)
     }
   }
+  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    const blob=values.profile_photo;
+    const hasImageChnaged=isBase64Image(blob);
+    if(hasImageChnaged){
+      const imgRes=await startUpload(files)
+
+      if(imgRes && imgRes[0].fileUrl){
+        values.profile_photo=imgRes[0].fileUrl
+      }
+    }
+  };
 
   return (
     <Form {...form}>
