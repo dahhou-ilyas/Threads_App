@@ -8,6 +8,7 @@ import { ChangeEvent, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useUploadThing} from '@/lib/uploadthing'
 
+
 import {
   Form,
   FormControl,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { UserValidation } from "@/lib/validation/user";
 import { isBase64Image } from "@/lib/utils";
+import { updateUser } from "@/lib/actions/user.actions";
 
 
 interface Props {
@@ -85,9 +87,20 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 
       if(imgRes && imgRes[0].fileUrl){
         values.profile_photo=imgRes[0].fileUrl
-      }
+      } 
     }
     //les ligne précedent permet de changer la valeur de values.profile_photo si image est changer
+    
+    await updateUser({
+      username:values.username,
+      name:values.name,
+      bio:values.bio,
+      image:values.profile_photo,
+      userId:user.id,
+      path:pathname
+    })
+
+    
     
   };
 
