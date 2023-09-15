@@ -31,3 +31,26 @@ text,author,communityId,path
     }
 
 }
+
+
+//cette fonction permet de fetcher les posts et aussi faire la pagination !!!
+export async function fetchPost(pageNumber=1,pageSize=20){
+    connectToDB()
+
+    const skipsAmount=(pageNumber-1)*pageSize
+
+    //ftech post qui non pas des parrent (top level thread ..)
+    const postQuery=Thread.find({parentId:{$in:[null,undefined]}})
+    .sort({createAt:'desc'}).skip(skipsAmount)
+    .limit(pageSize).populate({path:'author',model:User})
+    .populate({path:'childrent',populate:{
+        path:'author',model:User,select:"_id name parentId image"
+    }})
+
+    const totalPostsCount=await Thread.countDocuments({parentId:{$in:[null,undefined]}})
+    const posts=await postQuery.exec();
+
+    const isNext=totalPostsCount > skipsAmount + posts.length;
+
+    return {posts,isNext}
+}

@@ -1,10 +1,8 @@
 "use client";
-
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {useUploadThing} from '@/lib/uploadthing'
 
 
 import {
