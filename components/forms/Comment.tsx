@@ -67,7 +67,7 @@ export default function Comment({threadId,currentUserImg,currentUserId}:Props) {
                 )}
             />
             <Button type="submit" className="comment-form_btn">
-                Post Thread
+                Reply
             </Button>
         </form>
     </Form>
