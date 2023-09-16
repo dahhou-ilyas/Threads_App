@@ -87,3 +87,42 @@ export async function fetchThreadById(id:string){
         throw new Error(`Error fetching thread recursive: ${error.message}`)
     }
 }
+
+export async function addCommentToThread(
+threadId:string,
+commentText:string,
+userId:string,
+path:string){
+    connectToDB();
+    try {
+        const originalThread=await Thread.findById(threadId)
+
+        if(!originalThread) {
+            throw new Error('Thread not found')
+        }
+
+        //create new thread
+        const commentThread=new Thread({
+            text:commentText,
+            author:userId,
+            parentId:threadId,
+        })
+
+        //save the nesw thread
+
+        const saveCommentThread=await commentThread.save()
+
+        //update the originale thread
+
+        originalThread.childrent.push(saveCommentThread._id)
+
+        await originalThread.save();
+
+        revalidatePath(path);
+
+
+    } catch (error) {
+        
+    }
+
+}
