@@ -122,7 +122,7 @@ path:string){
 
 
     } catch (error) {
-        
+        throw new Error('Error adding childe comment')
     }
 
 }

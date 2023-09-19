@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CommentValidation } from "@/lib/validation/thread";
 import Image from "next/image";
+import { addCommentToThread } from "@/lib/actions/thread.actions";
 //import { createThread } from "@/lib/actions/thread.actions";
 
 interface Props{
@@ -35,41 +36,46 @@ export default function Comment({threadId,currentUserImg,currentUserId}:Props) {
             thread:""
         }
     })
+   
 
     const onSubmit=async (values: z.infer<typeof CommentValidation>)=>{
-        // await createThread({
-        //   text:values.thread,
-        //   author:userId,
-        //   communityId:null,
-        //   path:pathname
-        // })
-        router.push('/ ')
+        await addCommentToThread(threadId,values.thread,JSON.parse(currentUserId),pathname)
+        console.log("object");
+        form.reset()
     }
   return (
-    <Form {...form} >
-        <form className='comment-form' onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-                  control={form.control}
-                  name='thread'
-                  render={({ field }) => (
-                  <FormItem className='flex w-full items-center gap-3'>
-                    <FormLabel >
-                      <Image src={currentUserImg} alt="profile image" width={48} height={48} className="rounded-full object-cover"/>
-                    </FormLabel>
-                    <FormControl className="border-none bg-transparent">
-                      <Input
-                        type="text"
-                        placeholder="Comment..."
-                        className="no-focus text-light-1 outline-non "
-                      /> 
-                    </FormControl>
-                  </FormItem>
-                )}
-            />
-            <Button type="submit" className="comment-form_btn">
-                Reply
-            </Button>
-        </form>
+    <Form {...form}>
+      <form className='comment-form' onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name='thread'
+          render={({ field }) => (
+            <FormItem className='flex w-full items-center gap-3'>
+              <FormLabel>
+                <Image
+                  src={currentUserImg}
+                  alt='current_user'
+                  width={48}
+                  height={48}
+                  className='rounded-full object-cover'
+                />
+              </FormLabel>
+              <FormControl className='border-none bg-transparent'>
+                <Input
+                  type='text'
+                  {...field}
+                  placeholder='Comment...'
+                  className='no-focus text-light-1 outline-none'
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button type='submit' className='comment-form_btn'>
+          Reply
+        </Button>
+      </form>
     </Form>
-  )
+      )
 }
